@@ -10,9 +10,10 @@ import { useLocation } from "wouter";
 
 const COMMANDS: { command: string; description: string }[] = [
   { command: "about", description: "navigate to /about" },
-  { command: "projects", description: "page to be defined" },
-  { command: "experience", description: "page to be defined" },
-  { command: "opensource", description: "page to be defined" },
+  { command: "project", description: "navigate to /projects" },
+  { command: "projects", description: "navigate to /projects" },
+  { command: "experience", description: "navigate to /experience" },
+  { command: "opensource", description: "navigate to /opensource" },
   { command: "contact", description: "page to be defined" },
   { command: "help", description: "show this help" },
   { command: "clear", description: "clear the terminal" },
@@ -20,19 +21,23 @@ const COMMANDS: { command: string; description: string }[] = [
 
 const NAVIGABLE_PAGES: Record<string, string> = {
   about: "/about",
-};
-
-const PENDING_PAGES: Record<string, string> = {
+  project: "/projects",
   projects: "/projects",
   experience: "/experience",
   opensource: "/opensource",
+};
+
+const PENDING_PAGES: Record<string, string> = {
   contact: "/contact",
 };
 
 const LINES_KEY = "sushit.terminal.lines";
 const HISTORY_KEY = "sushit.terminal.history";
 
-type Line = { type: "command" | "output" | "error"; text: string };
+type Line = {
+  type: "command" | "output" | "error";
+  text: string;
+};
 
 const readStorage = <T,>(key: string, fallback: T): T => {
   try {
