@@ -278,15 +278,15 @@ function Home() {
             <div className="space-y-0 border-y border-[#8AFF57]/15">
               <div className="grid grid-cols-[1fr_auto] gap-6 border-b border-[#8AFF57]/10 py-5">
                 <span className="text-xs text-[#8AFF57]/50">location</span>
-                <span className="text-right text-xs text-[#dff6d2]/80"><MapPin className="mr-1 inline" size={12} /> West Bengal, IN</span>
+                <span className="text-right text-xs text-[#dff6d2]/80"><MapPin className="mr-1 inline" size={12} /> India (remote-friendly)</span>
               </div>
               <div className="grid grid-cols-[1fr_auto] gap-6 border-b border-[#8AFF57]/10 py-5">
                 <span className="text-xs text-[#8AFF57]/50">education</span>
-                <span className="max-w-[180px] text-right text-xs leading-5 text-[#dff6d2]/80">B.Tech ECE<br />GNIT</span>
+                <span className="max-w-[180px] text-right text-xs leading-5 text-[#dff6d2]/80">B.Tech, ECE</span>
               </div>
               <div className="grid grid-cols-[1fr_auto] gap-6 border-b border-[#8AFF57]/10 py-5">
                 <span className="text-xs text-[#8AFF57]/50">last deployment</span>
-                <span className="text-right text-xs text-[#dff6d2]/80">iNeuBytes<br /><span className="text-[#8AFF57]/55">AI/ML Engineering</span></span>
+                <span className="max-w-[210px] text-right text-xs leading-5 text-[#dff6d2]/80">AI/ML Engineering — iNeuBytes<br /><span className="text-[#8AFF57]/55">Data Science — Thiranex</span></span>
               </div>
               <div className="grid grid-cols-[1fr_auto] gap-6 py-5">
                 <span className="text-xs text-[#8AFF57]/50">thesis</span>
@@ -357,8 +357,27 @@ function Home() {
           </div>
         </section>
 
+        <section aria-labelledby="other-work-title" className="border-t border-[#8AFF57]/10 py-14 sm:py-18">
+          <SectionKicker command="$ cat other-work.txt" index="03" />
+          <div className="mb-7">
+            <h2 id="other-work-title" className="text-xl font-semibold tracking-[-0.04em] text-[#CAFF3C] sm:text-2xl">Other Work</h2>
+            <p className="mt-2 text-xs leading-6 text-[#8AFF57]/45">Earlier signals from the path into AI Engineering.</p>
+          </div>
+          <div className="max-w-4xl border-y border-[#8AFF57]/10">
+            {[
+              ['iNeuBytes — AI/ML Engineering Internship', 'Netflix dataset analysis, AAPL stock price prediction, and heart disease prediction models'],
+              ['Thiranex — Data Science Internship', 'Description to be added.'],
+            ].map(([title, description], index) => (
+              <div key={title} data-testid={`row-other-work-${index}`} className="grid gap-2 border-b border-[#8AFF57]/10 py-4 last:border-0 sm:grid-cols-[minmax(220px,.7fr)_1.3fr] sm:gap-8">
+                <span className="text-xs text-[#CAFF3C]/85">{title}</span>
+                <span className="text-xs leading-5 text-[#d8e8ce]/55">{description}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section aria-labelledby="opensource-title" className="border-t border-[#8AFF57]/15 py-20 sm:py-28">
-          <SectionKicker command="$ git log --oneline --all" index="03" />
+          <SectionKicker command="$ git log --oneline --all" index="04" />
           <div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:gap-24">
             <div>
               <h2 id="opensource-title" className="text-2xl font-semibold tracking-[-0.04em] text-[#CAFF3C] sm:text-3xl">Works in public.</h2>
@@ -381,7 +400,7 @@ function Home() {
         </section>
 
         <section aria-labelledby="skills-title" className="border-t border-[#8AFF57]/15 py-20 sm:py-28">
-          <SectionKicker command="$ printenv SKILLS" index="04" />
+          <SectionKicker command="$ printenv SKILLS" index="05" />
           <h2 id="skills-title" className="mb-10 text-2xl font-semibold tracking-[-0.04em] text-[#CAFF3C] sm:text-3xl">The working set.</h2>
           <div className="grid gap-x-10 gap-y-8 md:grid-cols-2">
             {skills.map(([category, stack], index) => (
@@ -394,7 +413,7 @@ function Home() {
         </section>
 
         <section id="contact" aria-labelledby="contact-title" className="border-t border-[#8AFF57]/15 py-20 sm:py-28">
-          <SectionKicker command="$ mail sushit" index="05" />
+          <SectionKicker command="$ mail sushit" index="06" />
           <div className="terminal-panel relative overflow-hidden p-6 sm:p-10">
             <div className="absolute -right-12 -top-20 h-64 w-64 rounded-full border border-[#8AFF57]/10" />
             <div className="absolute -right-2 -top-10 h-44 w-44 rounded-full border border-[#8AFF57]/10" />
