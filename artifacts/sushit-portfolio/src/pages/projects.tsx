@@ -11,7 +11,7 @@ const stripStats: {
   pad?: number;
   label: string;
 }[] = [
-  { value: "07", num: 7, pad: 2, label: "Projects Shipped" },
+  { value: "11", num: 11, pad: 2, label: "Projects Shipped" },
   { value: "03", num: 3, pad: 2, label: "PyPI Releases" },
   { value: "268", num: 268, label: "Tests, Top Project" },
   { value: "∞", label: "Bugs Found First" },

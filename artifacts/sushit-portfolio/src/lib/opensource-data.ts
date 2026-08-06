@@ -130,4 +130,30 @@ export const opensourceRepos: OSSRepo[] = [
       },
     ],
   },
+  {
+    name: "Onyx",
+    href: "https://github.com/onyx-dot-app/onyx",
+    note: "external repo · contributed upstream, not maintained by me",
+    entries: [
+      {
+        id: "jira-sm-connector",
+        title: "Jira Service Management connector",
+        ref: "PR #10005",
+        blocks: [
+          {
+            issue:
+              "Onyx could index regular Jira issues but not service-management requests — so customer-support data was missing the JSM-specific fields (service desk ID, request type, customer request status) needed to search it properly.",
+            fix: "Added a JiraServiceManagementConnector extending the existing JiraConnector, indexing the JSM-specific metadata via the servicedesk API with zero behavior change to the existing connector.",
+            result: "Submitted upstream (PR closed without merge).",
+          },
+        ],
+        links: [
+          {
+            label: "PR #10005",
+            href: "https://github.com/onyx-dot-app/onyx/pull/10005",
+          },
+        ],
+      },
+    ],
+  },
 ];

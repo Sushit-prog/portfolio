@@ -47,3 +47,11 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# local screenshots, logs, and source artifacts (site copies live in public/)
+/dev-smoke.log
+/image.png
+/me (1).png
+/iNeubytes_intern.jpeg
+/Thiranex_Certificate_Sushit_Lal_Pakrashy_THX-MAY2326-345.pdf
+/my_resume (1).pdf

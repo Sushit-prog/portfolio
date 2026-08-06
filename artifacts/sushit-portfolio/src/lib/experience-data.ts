@@ -20,7 +20,7 @@ export const experienceEntries: ExperienceEntry[] = [
     id: "ineubytes",
     role: "AI/ML Engineer Intern",
     company: "iNeuBytes",
-    duration: "dates to be confirmed",
+    duration: "29 Jun 2026 – 29 Jul 2026",
     bullets: [
       "Three end-to-end ML projects (course AIINB10626): CIFAR-10 CNN, IMDB sentiment analysis, production RAG chatbot",
       "Custom CNN with BatchNorm/Dropout/augmentation beat the AlexNet-style baseline by +11pp (74.57% → 85.57%) on CIFAR-10",
@@ -38,7 +38,7 @@ export const experienceEntries: ExperienceEntry[] = [
     id: "thiranex",
     role: "Data Science Intern",
     company: "Thiranex",
-    duration: "dates to be confirmed",
+    duration: "23 May 2026 – 22 Jun 2026",
     bullets: [
       "Netflix dataset analysis",
       "AAPL stock price prediction model",

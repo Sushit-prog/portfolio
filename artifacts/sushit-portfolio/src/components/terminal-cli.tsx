@@ -28,8 +28,6 @@ const NAVIGABLE_PAGES: Record<string, string> = {
   contact: "/contact",
 };
 
-const PENDING_PAGES: Record<string, string> = {};
-
 const LINES_KEY = "sushit.terminal.lines";
 const HISTORY_KEY = "sushit.terminal.history";
 
@@ -98,17 +96,6 @@ function TerminalCli() {
       newLines.push({ type: "output", text: `navigating to ${route} …` });
       setLines((prev) => [...prev, ...newLines]);
       navigate(route);
-      return;
-    }
-
-    const pendingPage = PENDING_PAGES[command];
-
-    if (pendingPage) {
-      newLines.push({
-        type: "output",
-        text: `page ${pendingPage} — to be defined`,
-      });
-      setLines((prev) => [...prev, ...newLines]);
       return;
     }
 

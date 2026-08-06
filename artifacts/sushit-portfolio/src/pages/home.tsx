@@ -1,4 +1,3 @@
-import { useMemo, useState } from "react";
 import {
   Activity,
   ArrowUpRight,
@@ -11,27 +10,28 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 
-import ProjectCard from "@/components/project-card";
-import ProjectModal from "@/components/project-modal";
 import SectionKicker from "@/components/section-kicker";
 import SiteFooter from "@/components/site-footer";
 import SiteHeader from "@/components/site-header";
 import TerminalCli from "@/components/terminal-cli";
-import { projects, type Pillar, type Project } from "@/lib/projects";
+import { portfolioProjects, type PortfolioProject } from "@/lib/projects-data";
 
 const stats: [string, string][] = [
-  ["11", "systems listed"],
-  ["02", "engineering pillars"],
-  ["01", "PyPI release"],
+  ["07", "systems listed"],
+  ["03", "PyPI releases"],
+  ["02", "internships"],
   ["∞", "failure modes to find"],
 ];
 
 const otherWork: [string, string][] = [
   [
     "iNeuBytes — AI/ML Engineering Internship",
+    "CIFAR-10 CNN classification, IMDB sentiment analysis, and a production RAG chatbot",
+  ],
+  [
+    "Thiranex — Data Science Internship",
     "Netflix dataset analysis, AAPL stock price prediction, and heart disease prediction models",
   ],
-  ["Thiranex — Data Science Internship", "Description to be added."],
 ];
 
 const contributions: [string, string, string][] = [
@@ -40,23 +40,98 @@ const contributions: [string, string, string][] = [
   ["Onyx", "PR #10005", "open source contribution"],
 ];
 
+function HomeProjectCard({
+  project,
+  index,
+}: {
+  project: PortfolioProject;
+  index: number;
+}) {
+  return (
+    <article
+      data-testid={`card-project-${project.id}`}
+      className="terminal-panel relative flex flex-col overflow-hidden p-5 transition-colors duration-200 hover:border-[#8AFF57]/60 focus-ring sm:p-6"
+    >
+      <div className="mb-7 flex items-start justify-between gap-4">
+        <span className="font-mono text-[11px] text-[#8AFF57]/35">
+          {String(index + 1).padStart(2, "0")} /{" "}
+          {String(portfolioProjects.length).padStart(2, "0")}
+        </span>
+        <Link
+          href="/projects"
+          className="text-[10px] uppercase tracking-wider text-[#8AFF57]/45 transition-colors hover:text-[#CAFF3C]"
+        >
+          $ more
+        </Link>
+      </div>
+      <h3 className="mb-3 text-lg font-semibold tracking-tight text-[#CAFF3C] text-glow sm:text-xl">
+        {project.name}
+      </h3>
+      <p className="max-w-[52ch] text-sm leading-6 text-[#d8e8ce]/65">
+        {project.pitch}
+      </p>
+      <div className="mt-5 flex flex-wrap items-baseline gap-3 border-l-2 border-[#CAFF3C] pl-4">
+        {project.stats.map((stat) => (
+          <span key={stat.label}>
+            <span className="text-2xl text-[#CAFF3C]">
+              {Number.isInteger(stat.value)
+                ? stat.value
+                : stat.value.toFixed(1)}
+              {stat.suffix ?? ""}
+            </span>
+            <span className="ml-3 text-[10px] uppercase tracking-wider text-[#8AFF57]/45">
+              {stat.label}
+            </span>
+          </span>
+        ))}
+      </div>
+      <p className="mt-4 text-xs leading-5 text-[#8AFF57]/55">
+        proof: {project.proof}
+      </p>
+      <div className="mt-auto pt-6">
+        <div className="mb-5 flex flex-wrap gap-2">
+          {project.stack.map((item) => (
+            <span
+              key={item}
+              className="border border-[#8AFF57]/15 bg-[#8AFF57]/[0.035] px-2 py-1 text-[10px] uppercase tracking-wide text-[#8AFF57]/60"
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          {project.links.map((link) =>
+            link.label === "PyPI" ? (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                data-testid={`link-project-${project.id}-pypi`}
+                className="focus-ring inline-flex items-center gap-1 text-[11px] uppercase tracking-wider text-[#8AFF57]/75 transition-colors hover:text-[#CAFF3C]"
+              >
+                PyPI <ArrowUpRight size={12} strokeWidth={1.5} />
+              </a>
+            ) : (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                data-testid={`link-project-${project.id}-${link.label.toLowerCase()}`}
+                className="focus-ring inline-flex items-center gap-2 border border-[#8AFF57]/35 px-4 py-3 text-xs uppercase tracking-wider text-[#CAFF3C] transition-colors hover:border-[#CAFF3C] hover:bg-[#CAFF3C]/10"
+              >
+                {link.label} <ArrowUpRight size={14} />
+              </a>
+            ),
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function HomePage() {
-  const [activePillar, setActivePillar] = useState<"all" | Pillar>("all");
-  const [showAll, setShowAll] = useState(false);
-  const [activeProject, setActiveProject] = useState<Project | null>(null);
-  const visibleProjects = useMemo(() => {
-    const filtered =
-      activePillar === "all"
-        ? projects
-        : projects.filter((project) => project.pillar === activePillar);
-    return showAll ? filtered : filtered.filter((project) => project.featured);
-  }, [activePillar, showAll]);
-
-  const filterProjects = (pillar: "all" | Pillar) => {
-    setActivePillar(pillar);
-    setShowAll(false);
-  };
-
   return (
     <div className="crt-lines terminal-grid min-h-[100dvh] overflow-hidden">
       <SiteHeader />
@@ -255,67 +330,35 @@ function HomePage() {
             command="$ cat projects.json | jq '.projects[]'"
             index="02"
           />
-          <div className="mb-10 flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
-            <div>
-              <h2
-                id="work-title"
-                className="text-2xl font-semibold tracking-[-0.04em] text-[#CAFF3C] sm:text-3xl"
-              >
-                Selected systems
-              </h2>
-              <p className="mt-3 max-w-xl text-sm leading-6 text-[#8AFF57]/55">
-                Tools for making LLM behavior safer to ship — from the request
-                boundary to the agent runtime.
-              </p>
-            </div>
-            <div
-              role="group"
-              aria-label="Filter projects"
-              className="flex flex-wrap gap-2"
+          <div className="mb-10 max-w-2xl">
+            <h2
+              id="work-title"
+              className="text-2xl font-semibold tracking-[-0.04em] text-[#CAFF3C] sm:text-3xl"
             >
-              {(
-                [
-                  "all",
-                  "Infra / Eval / Reliability",
-                  "Agentic Systems",
-                ] as const
-              ).map((pillar) => (
-                <button
-                  key={pillar}
-                  type="button"
-                  onClick={() => filterProjects(pillar)}
-                  data-testid={`button-filter-${pillar === "all" ? "all" : pillar === "Infra / Eval / Reliability" ? "reliability" : "agents"}`}
-                  aria-pressed={activePillar === pillar}
-                  className={`focus-ring border px-3 py-2 text-[10px] uppercase tracking-wider transition-colors ${activePillar === pillar ? "border-[#CAFF3C] bg-[#CAFF3C] text-[#0A0F08]" : "border-[#8AFF57]/20 text-[#8AFF57]/55 hover:border-[#8AFF57]/60 hover:text-[#CAFF3C]"}`}
-                >
-                  {pillar === "all"
-                    ? "all systems"
-                    : pillar === "Infra / Eval / Reliability"
-                      ? "infra / eval"
-                      : "agentic"}
-                </button>
-              ))}
-            </div>
+              Selected systems
+            </h2>
+            <p className="mt-3 max-w-xl text-sm leading-6 text-[#8AFF57]/55">
+              Tools for making LLM behavior safer to ship — from the request
+              boundary to the agent runtime.
+            </p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
-            {visibleProjects.map((project, index) => (
-              <ProjectCard
+            {portfolioProjects.map((project, index) => (
+              <HomeProjectCard
                 key={project.id}
                 project={project}
                 index={index}
-                onSelect={setActiveProject}
               />
             ))}
           </div>
           <div className="mt-8 flex justify-center">
-            <button
-              type="button"
-              onClick={() => setShowAll((value) => !value)}
-              data-testid="button-toggle-projects"
+            <Link
+              href="/projects"
+              data-testid="link-all-projects"
               className="focus-ring border-b border-[#8AFF57]/40 pb-2 text-[11px] uppercase tracking-[0.16em] text-[#8AFF57]/70 hover:border-[#CAFF3C] hover:text-[#CAFF3C]"
             >
-              {showAll ? "$ show featured only" : "$ cat all-projects"}
-            </button>
+              $ cat all-projects
+            </Link>
           </div>
         </section>
 
@@ -464,7 +507,7 @@ function HomePage() {
               </p>
               <div className="mt-9 flex flex-wrap gap-3">
                 <a
-                  href="mailto:sushit@example.com"
+                  href="mailto:pakrasys@gmail.com"
                   data-testid="link-email-contact"
                   className="focus-ring inline-flex items-center gap-2 border border-[#CAFF3C] bg-[#CAFF3C] px-4 py-3 text-xs uppercase tracking-wider text-[#0A0F08] transition-colors hover:bg-[#8AFF57]"
                 >
@@ -482,8 +525,17 @@ function HomePage() {
               </div>
               <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-[10px] uppercase tracking-wider text-[#8AFF57]/45">
                 <span>
-                  <FileText className="mr-1 inline" size={12} /> resume
-                  available on request
+                  <FileText className="mr-1 inline" size={12} />
+                  <a
+                    href={`${import.meta.env.BASE_URL}resume.pdf`}
+                    target="_blank"
+                    rel="noreferrer"
+                    download="resume.pdf"
+                    data-testid="link-resume-contact"
+                    className="transition-colors hover:text-[#CAFF3C]"
+                  >
+                    resume — download
+                  </a>
                 </span>
                 <span>
                   <Activity className="mr-1 inline" size={12} /> response
@@ -513,10 +565,6 @@ function HomePage() {
           <TerminalCli />
         </section>
       </main>
-      <ProjectModal
-        project={activeProject}
-        onClose={() => setActiveProject(null)}
-      />
       <SiteFooter />
     </div>
   );

@@ -50,6 +50,21 @@ export const portfolioProjects: PortfolioProject[] = [
     ],
   },
   {
+    id: "langgraph-replay",
+    name: "langgraph-replay / AgentTrace",
+    pitch:
+      "A replay and blame-attribution debugger for LangGraph, plus a regression-testing layer (AgentTrace) on top of it — diffs new runs against a pinned baseline, catches stuck loops, and traces upstream divergence.",
+    problem:
+      "When a LangGraph agent misbehaves, there's no good way to answer which step caused it after the fact — you're stuck re-reading logs and guessing.",
+    how: "Built the core replay/blame tool first — SQLite-backed, a Textual TUI, a blame algorithm that walks backward through execution to find where a key got dropped — then extended it across 7 phases into the full regression-testing layer: human judgments on individual spans, a regression watchdog that diffs new runs against a pinned baseline, a loop classifier that catches agents stuck repeating themselves, semantic diffing, upstream divergence tracing, and counterfactual replay (fork a checkpoint, substitute a value, test whether that's really what caused the regression). Added an embedding-based loop detector and CI-native exit codes so it can gate merges the same way EvalFlow does for prompts.",
+    proof: "141 tests · blame engine · loop detection · counterfactual replay",
+    stats: [{ label: "tests", value: 141 }],
+    stack: ["Python", "LangGraph", "SQLite", "Textual (TUI)"],
+    links: [
+      { label: "GitHub", href: "https://github.com/Sushit-prog/AgentTrack" },
+    ],
+  },
+  {
     id: "neural-circuit-breaker",
     name: "Neural Circuit Breaker",
     pitch:
@@ -68,18 +83,32 @@ export const portfolioProjects: PortfolioProject[] = [
     ],
   },
   {
-    id: "langgraph-replay",
-    name: "langgraph-replay / AgentTrace",
+    id: "litellm-oss",
+    name: "LiteLLM contributions",
     pitch:
-      "A replay and blame-attribution debugger for LangGraph, plus a regression-testing layer (AgentTrace) on top of it — diffs new runs against a pinned baseline, catches stuck loops, and traces upstream divergence.",
+      "Two merged upstream fixes to LiteLLM's parallel request limiter — cutting needless Redis writes at scale and closing a client-forgeable TPM-accounting bypass.",
     problem:
-      "When a LangGraph agent misbehaves, there's no good way to answer which step caused it after the fact — you're stuck re-reading logs and guessing.",
-    how: "Built the core replay/blame tool first — SQLite-backed, a Textual TUI, a blame algorithm that walks backward through execution to find where a key got dropped — then extended it across 7 phases into the full regression-testing layer: human judgments on individual spans, a regression watchdog that diffs new runs against a pinned baseline, a loop classifier that catches agents stuck repeating themselves, semantic diffing, upstream divergence tracing, and counterfactual replay (fork a checkpoint, substitute a value, test whether that's really what caused the regression). Added an embedding-based loop detector and CI-native exit codes so it can gate merges the same way EvalFlow does for prompts.",
-    proof: "141 tests · blame engine · loop detection · counterfactual replay",
-    stats: [{ label: "tests", value: 141 }],
-    stack: ["Python", "LangGraph", "SQLite", "Textual (TUI)"],
+      "LiteLLM's rate limiter wrote to Redis on every request even when nothing was rate-limited, and post-call TPM/decrement logging trusted a client-settable marker, letting a client bypass accounting.",
+    how: "Part A (#32447): gated legacy-limiter Redis writes behind a shared _entity_has_any_limit check across all four scopes, with a fallback to the old unconditional behavior if the auth object is ever missing. Part B (#33010): added a _no_rate_limits marker set server-side and scrubbed from client-supplied metadata, closing the reviewer-found bypass. Full write-up on the Open Source page.",
+    proof: "merged upstream · PR #32447 + #33010 · 77 tests passing",
+    stats: [{ label: "tests", value: 77 }],
+    stack: ["Python", "Redis", "LiteLLM"],
+    links: [{ label: "GitHub", href: "https://github.com/BerriAI/litellm" }],
+  },
+  {
+    id: "pytest-llm-sushit",
+    name: "pytest-llm-sushit",
+    pitch:
+      "A pytest plugin providing semantic assertion functions purpose-built for testing LLM outputs, so agent and prompt behavior can be unit-tested the same way regular code is.",
+    problem:
+      "Standard assert statements don't work for LLM output — you can't assert exact-match equality against a generative model's response.",
+    how: "Built as a standalone, dependency-light PyPI package first, then integrated as the assertion layer inside two other projects (langgraph-replay's blame --eval calls it internally, and EvalFlow's runner wraps it) — proof it works as real infrastructure, not a one-off script.",
+    proof:
+      "live on PyPI · 8 semantic assertion functions · used by 2 other projects in this list",
+    stats: [{ label: "tests", value: 49 }],
+    stack: ["Python", "pytest"],
     links: [
-      { label: "GitHub", href: "https://github.com/Sushit-prog/AgentTrack" },
+      { label: "PyPI", href: "https://pypi.org/project/pytest-llm-sushit" },
     ],
   },
   {
@@ -98,19 +127,54 @@ export const portfolioProjects: PortfolioProject[] = [
     ],
   },
   {
-    id: "pytest-llm-sushit",
-    name: "pytest-llm-sushit",
+    id: "llmgate",
+    name: "LLMGate",
     pitch:
-      "A pytest plugin providing semantic assertion functions purpose-built for testing LLM outputs, so agent and prompt behavior can be unit-tested the same way regular code is.",
+      "A self-hosted LLM API gateway — FastAPI with LiteLLM for provider routing, PostgreSQL for usage and token accounting, and Prometheus/Grafana for live traffic observability, all brought up by a single Docker Compose stack.",
     problem:
-      "Standard assert statements don't work for LLM output — you can't assert exact-match equality against a generative model's response.",
-    how: "Built as a standalone, dependency-light PyPI package first, then integrated as the assertion layer inside two other projects (langgraph-replay's blame --eval calls it internally, and EvalFlow's runner wraps it) — proof it works as real infrastructure, not a one-off script.",
+      "Apps that call LLMs tend to talk to every provider directly — there's no single place to enforce routing, track usage per key or team, or watch traffic in one dashboard. That makes cost control and incident visibility ad-hoc.",
+    how: "Built FastAPI as the control plane with LiteLLM handling provider abstraction, PostgreSQL persisting usage and token accounting, and Prometheus + Grafana surfacing live request traffic. Deliberately minimal footprint — no Redis/Celery/Kafka — so an operator can bring the whole gateway up with one Compose stack.",
     proof:
-      "live on PyPI · 8 semantic assertion functions · used by 2 other projects in this list",
-    stats: [{ label: "tests", value: 49 }],
-    stack: ["Python", "pytest"],
+      "self-hosted deployment surface: routing + observability in one stack",
+    stats: [],
+    stack: [
+      "Python",
+      "FastAPI",
+      "LiteLLM",
+      "PostgreSQL",
+      "Prometheus",
+      "Grafana",
+    ],
     links: [
-      { label: "PyPI", href: "https://pypi.org/project/pytest-llm-sushit" },
+      { label: "GitHub", href: "https://github.com/Sushit-prog/llmgate" },
+    ],
+  },
+  {
+    id: "praxis",
+    name: "Praxis",
+    pitch:
+      "A multi-agent research-to-prototype copilot: triages a paper or repository into a technical blueprint, then scaffolds a working prototype — each stage handled by a dedicated agent instead of one model doing everything.",
+    problem:
+      "Going from \u201chere's an interesting paper\u201d to \u201chere's something you can run and test\u201d is mostly tedious plumbing — reading the paper, sketching an architecture, and scaffolding a first working version. One model pass over the whole job produces shallow, unstructured output.",
+    how: "Split the pipeline across agents with distinct responsibilities — triage, planning, and prototyping — each passing a structured artifact (a blueprint) to the next, so the plan is explicit and inspectable before any code is written.",
+    proof: "multi-agent pipeline: paper/repo → blueprint → runnable prototype",
+    stats: [],
+    stack: ["Python", "Multi-agent", "Research"],
+    links: [{ label: "GitHub", href: "https://github.com/Sushit-prog/praxis" }],
+  },
+  {
+    id: "sentinel",
+    name: "SENTINEL",
+    pitch:
+      "A multi-module digital public safety platform built for the ET AI Hackathon 2.0 — SCAMWatch, CURRENCYGuard, FRAUDGraph, and a cross-module intelligence dashboard.",
+    problem:
+      "Fraud detection tooling is fragmented: separate systems for scam patterns, currency and security verification, and fraud networks, with no way to correlate signals across all of them.",
+    how: "LangGraph + Groq power the scam-detection engine, OpenCV handles image-based currency and security analysis, Neo4j (with an in-memory fallback) plus pyvis/networkx map fraud networks, and ChromaDB correlates signals across the four modules into one live dashboard.",
+    proof: "ET AI Hackathon 2.0 — 4 modules, one live dashboard",
+    stats: [],
+    stack: ["LangGraph", "Groq", "OpenCV", "Neo4j", "ChromaDB"],
+    links: [
+      { label: "GitHub", href: "https://github.com/Sushit-prog/sentinel" },
     ],
   },
   {

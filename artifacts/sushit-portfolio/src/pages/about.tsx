@@ -6,9 +6,9 @@ import SectionKicker from "@/components/section-kicker";
 import { bio, experience, links, skillGroups } from "@/lib/about";
 
 const stats: [string, string][] = [
-  ["11", "systems listed"],
-  ["02", "engineering pillars"],
-  ["01", "PyPI release"],
+  ["07", "systems listed"],
+  ["03", "PyPI releases"],
+  ["02", "internships"],
   ["∞", "failure modes to find"],
 ];
 
