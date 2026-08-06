@@ -397,6 +397,16 @@ function Home() {
               ))}
             </div>
           </div>
+          <figure className="mt-12 max-w-3xl" data-testid="github-stats-embed">
+            <figcaption className="mb-4 text-[10px] uppercase tracking-[0.18em] text-[#8AFF57]/40"> // github_contribution_activity </figcaption>
+            <img
+              src="https://github-readme-stats.vercel.app/api?username=Sushit-prog&theme=dark&show_icons=true&include_all_commits=true&count_private=true&hide_border=true&bg_color=0A0F08&title_color=8AFF57&text_color=8AFF57&icon_color=CAFF3C&ring_color=8AFF57&fire_color=CAFF3C&custom_title=Contribution%20%26%20Activity"
+              alt="GitHub contribution stats and activity breakdown for Sushit-prog"
+              loading="lazy"
+              decoding="async"
+              className="block h-auto w-full"
+            />
+          </figure>
         </section>
 
         <section aria-labelledby="skills-title" className="border-t border-[#8AFF57]/15 py-20 sm:py-28">
