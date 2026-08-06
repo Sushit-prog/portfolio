@@ -306,7 +306,7 @@ function Home() {
             <h2 id="about-title" className="text-2xl font-semibold tracking-[-0.04em] text-[#CAFF3C] sm:text-3xl">An engineer for the<br /><span className="text-[#8AFF57]/55">uncomfortable edge cases.</span></h2>
             <div className="max-w-2xl space-y-5 text-sm leading-7 text-[#d8e8ce]/70">
               <p>I am Sushit, a fresher-level AI Engineer focused on the layer where language models meet real systems: bounded execution, regression signals, observability, and useful failure modes.</p>
-              <p>Currently pursuing a B.Tech in Electronics and Communication Engineering at Guru Nanak Institute of Technology. Previously completed an AI/ML Engineering internship at iNeuBytes.</p>
+              <p>Early in my career, but not early-stage in how I work — I ship tools people actually use, contribute to real open-source projects, and treat every build like it has to survive contact with production. I move fast with AI-assisted workflows and hold the output to standards that would pass review at a serious engineering org.</p>
               <p className="text-[#8AFF57]/75"><span className="text-[#CAFF3C]">&gt;</span> I use coding agents as force multipliers, then hold the output to open-source-grade standards.</p>
             </div>
           </div>
