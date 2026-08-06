@@ -14,7 +14,7 @@ const COMMANDS: { command: string; description: string }[] = [
   { command: "projects", description: "navigate to /projects" },
   { command: "experience", description: "navigate to /experience" },
   { command: "opensource", description: "navigate to /opensource" },
-  { command: "contact", description: "page to be defined" },
+  { command: "contact", description: "navigate to /contact" },
   { command: "help", description: "show this help" },
   { command: "clear", description: "clear the terminal" },
 ];
@@ -25,11 +25,10 @@ const NAVIGABLE_PAGES: Record<string, string> = {
   projects: "/projects",
   experience: "/experience",
   opensource: "/opensource",
-};
-
-const PENDING_PAGES: Record<string, string> = {
   contact: "/contact",
 };
+
+const PENDING_PAGES: Record<string, string> = {};
 
 const LINES_KEY = "sushit.terminal.lines";
 const HISTORY_KEY = "sushit.terminal.history";

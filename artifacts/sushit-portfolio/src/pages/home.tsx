@@ -118,6 +118,16 @@ function HomePage() {
                   <Github size={15} /> GitHub
                 </a>
                 <a
+                  href={`${import.meta.env.BASE_URL}resume.pdf`}
+                  target="_blank"
+                  rel="noreferrer"
+                  download="resume.pdf"
+                  data-testid="link-resume-download-hero"
+                  className="focus-ring inline-flex items-center gap-2 border border-[#8AFF57]/35 px-4 py-3 text-xs uppercase tracking-wider text-[#CAFF3C] transition-colors hover:border-[#CAFF3C] hover:bg-[#CAFF3C]/10"
+                >
+                  <FileText size={15} /> Resume
+                </a>
+                <a
                   href="https://huggingface.co/Pakrashy"
                   target="_blank"
                   rel="noreferrer"

@@ -1,58 +1,121 @@
-import { Activity, FileText, Github, Mail } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { FileText, Github, Linkedin, Mail } from "lucide-react";
 
 import PageLayout from "@/components/page-layout";
 import SectionKicker from "@/components/section-kicker";
+import {
+  contactLinks,
+  ctaLine,
+  headline,
+  introParagraphs,
+  type ContactLink,
+} from "@/lib/contact-data";
+
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`;
+
+function LinkIcon({ link }: { link: ContactLink }) {
+  const Icon =
+    link.id === "linkedin"
+      ? Linkedin
+      : link.id === "github"
+        ? Github
+        : link.id === "resume"
+          ? FileText
+          : Mail;
+  return <Icon size={15} />;
+}
 
 function ContactPage() {
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let ctx: { revert: () => void } | undefined;
+    let cancelled = false;
+
+    (async () => {
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
+      if (cancelled || !rootRef.current) {
+        return;
+      }
+      gsap.registerPlugin(ScrollTrigger);
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return;
+      }
+
+      ctx = gsap.context(() => {
+        gsap.from(".contact-reveal", {
+          opacity: 0,
+          y: 24,
+          duration: 0.5,
+          ease: "power2.out",
+          stagger: 0.1,
+          scrollTrigger: { trigger: ".contact-content", start: "top 85%" },
+        });
+      }, rootRef);
+    })();
+
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
+  }, []);
+
   return (
     <PageLayout>
-      <section aria-labelledby="contact-title" className="py-20 sm:py-28">
+      <section
+        aria-labelledby="contact-title"
+        className="py-20 sm:py-28"
+        ref={rootRef}
+      >
         <SectionKicker command="$ mail sushit" index="06" />
-        <div className="terminal-panel relative overflow-hidden p-6 sm:p-10">
-          <div className="absolute -right-12 -top-20 h-64 w-64 rounded-full border border-[#8AFF57]/10" />
-          <div className="absolute -right-2 -top-10 h-44 w-44 rounded-full border border-[#8AFF57]/10" />
-          <div className="relative max-w-2xl">
+        <div className="contact-content max-w-3xl">
+          <div className="contact-reveal">
             <h2
               id="contact-title"
               className="text-3xl font-semibold tracking-[-0.06em] text-[#CAFF3C] text-glow sm:text-5xl"
             >
-              Let&apos;s make the
-              <br />
-              failure modes legible.
+              {headline}
             </h2>
-            <p className="mt-6 max-w-xl text-sm leading-7 text-[#d8e8ce]/65">
-              Looking for AI Engineering internships and entry-level AI
-              Infrastructure roles where reliability is part of the product, not
-              an afterthought.
+          </div>
+          <div className="contact-reveal mt-8">
+            <div className="space-y-5 text-sm leading-7 text-[#d8e8ce]/70 sm:text-base">
+              {introParagraphs.map((paragraph) => (
+                <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+              ))}
+            </div>
+            <p className="mt-8 text-xs leading-6 text-[#8AFF57]/65">
+              <span className="text-[#CAFF3C]">&gt;</span> {ctaLine}
             </p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <a
-                href="mailto:sushit@example.com"
-                data-testid="link-email-contact"
-                className="focus-ring inline-flex items-center gap-2 border border-[#CAFF3C] bg-[#CAFF3C] px-4 py-3 text-xs uppercase tracking-wider text-[#0A0F08] transition-colors hover:bg-[#8AFF57]"
-              >
-                <Mail size={15} /> send a note
-              </a>
-              <a
-                href="https://github.com/Sushit-prog"
-                target="_blank"
-                rel="noreferrer"
-                data-testid="link-github-contact"
-                className="focus-ring inline-flex items-center gap-2 border border-[#8AFF57]/35 px-4 py-3 text-xs uppercase tracking-wider text-[#CAFF3C] hover:border-[#CAFF3C]"
-              >
-                <Github size={15} /> inspect the work
-              </a>
-            </div>
-            <div className="mt-9 flex flex-wrap gap-x-6 gap-y-3 text-[10px] uppercase tracking-wider text-[#8AFF57]/45">
-              <span>
-                <FileText className="mr-1 inline" size={12} /> resume available
-                on request
-              </span>
-              <span>
-                <Activity className="mr-1 inline" size={12} /> response channel:
-                open
-              </span>
-            </div>
+          </div>
+          <div className="contact-reveal mt-10 flex flex-wrap gap-3">
+            {contactLinks.map((link) => {
+              const isPrimary = link.type === "mail";
+              const href =
+                link.type === "download" ? asset(link.href) : link.href;
+              const external =
+                link.type === "external" || link.type === "download";
+              return (
+                <a
+                  key={link.id}
+                  href={href}
+                  target={external ? "_blank" : undefined}
+                  rel={external ? "noreferrer" : undefined}
+                  download={link.type === "download" ? "resume.pdf" : undefined}
+                  data-testid={`link-contact-${link.id}`}
+                  className={`focus-ring inline-flex items-center gap-2 px-4 py-3 text-xs uppercase tracking-wider transition-colors ${
+                    isPrimary
+                      ? "border border-[#CAFF3C] bg-[#CAFF3C] text-[#0A0F08] hover:bg-[#8AFF57]"
+                      : "border border-[#8AFF57]/35 text-[#CAFF3C] hover:border-[#CAFF3C] hover:bg-[#CAFF3C]/10"
+                  }`}
+                >
+                  <LinkIcon link={link} /> {link.label}
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>
