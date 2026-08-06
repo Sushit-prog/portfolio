@@ -1,0 +1,88 @@
+# Prompt for Open Design
+
+Paste everything below into Open Design as your initial build prompt.
+
+---
+
+You are an expert full-stack web developer and portfolio designer. Build a personal portfolio website for **Sushit**, an AI Engineer (fresher-level, completed an AI/ML Engineering internship at iNeuBytes) based in West Bengal, India, currently pursuing a B.Tech in Electronics and Communication Engineering at Guru Nanak Institute of Technology.
+
+## Positioning
+
+Sushit's professional identity is broader than "infra/evals engineer" — he wants to be read as an **AI Engineer** who ships both reliability tooling *and* agentic systems. His portfolio thesis is **"LLM reliability and safety tooling"**, spanning two pillars:
+
+- **Pillar A — Infra / Eval / Reliability**: gateways, circuit breakers, drift monitors, eval harnesses, security frameworks
+- **Pillar B — Agentic Systems**: multi-agent research copilots, SOP-compiled agent runtimes, hackathon platforms
+
+The site's job is to get him AI Engineering internships and entry-level AI Engineering / AI Infrastructure roles. It should read as serious, technical, and open-source-grade — not demo-ware.
+
+## Visual Design System
+
+Use a **terminal / hacker aesthetic**, locked to this exact palette:
+
+- Background: `#0A0F08` (near-black, slight green tint)
+- Primary accent / bright green: `#8AFF57`
+- Secondary accent / lime: `#CAFF3C`
+
+Design direction:
+- Monospace fonts throughout (e.g. JetBrains Mono, Fira Code, or IBM Plex Mono)
+- Terminal-window motifs: blinking cursor, command-line prompts (`$ whoami`, `$ cat projects.json`), scanline/CRT-glow touches used sparingly (tasteful, not gimmicky)
+- Dark, high-contrast, code-editor feel — think a well-designed dev tool, not a neon rave
+- Subtle animation on load (typewriter text, fade-ins) but nothing that slows down usability
+- Fully responsive, fast-loading, accessible contrast ratios despite the dark palette
+
+## Site Structure
+
+**1. Hero**
+- Terminal-style intro (`$ whoami` → "Sushit — AI Engineer") 
+- One-line thesis: reliability/safety tooling for LLM systems, plus agentic systems
+- Links: GitHub (`Sushit-prog`), Hugging Face (`Pakrashy`), resume/CV, contact
+
+**2. About**
+- B.Tech ECE @ Guru Nanak Institute of Technology
+- iNeuBytes AI/ML Engineering internship (completed)
+- Working style note (optional, light touch): builds with AI coding agents, open-source-grade standards, strong aversion to demo-ware
+
+**3. Featured Projects** (grid or terminal-list layout, filterable by pillar if feasible)
+
+Pillar A — Infra / Eval / Reliability:
+- **Neural Circuit Breaker** — Python LLM safety middleware implementing circuit-breaker semantics
+- **GateKeeper** — tool-calling security framework using structural isolation and deterministic rules
+- **LLMGate** — self-hosted LLM API gateway (FastAPI + LiteLLM + Postgres + Prometheus + Grafana)
+- **EvalFlow** — CI-native regression harness for prompts/agents; GitHub Action + service that gates PRs on eval regressions
+- **cusum-watch** — calibrated e-CUSUM decoding-time drift monitor for quantized reasoning models (LiteLLM proxy hook)
+- **pytest-llm-sushit** — pytest plugin with semantic assertion functions for LLM testing, published to PyPI
+- **LiteLLM contributions** — open-source fixes to parallel request limiter logic
+
+Pillar B — Agentic Systems:
+- **langgraph-replay / AgentTrace** — LangGraph replay/debugging tool (blame engine, TUI) plus a regression-testing/eval layer (annotations, watchdog, loop detection)
+- **SOPVM** — capability-gated runtime for SOP-compiled LLM agents, published to PyPI (v0.2.0)
+- **Praxis** — multi-agent research-to-prototype copilot (paper/repo triage → blueprint → prototype)
+- **SENTINEL** — multi-module digital public safety AI platform (SCAMWatch, CURRENCYGuard, FRAUDGraph, cross-module intelligence dashboard) built for ET AI Hackathon 2.0
+
+Each project card should show: name, one-line description, tech stack tags, links (GitHub/PyPI/demo where applicable), and status (e.g. "Published on PyPI", "In progress").
+
+**4. Open Source**
+- Contributions to LiteLLM, marimo (PR #9302), Onyx (PR #10005), and any others worth surfacing — framed as evidence of real-world collaboration, not just solo projects
+
+**5. Skills**
+- Group by category: LLM infra & tooling, evaluation/testing, agent orchestration, languages/frameworks — pull specifics from the project stack tags rather than a generic buzzword list
+
+**6. Contact**
+- Terminal-style contact form or `$ mail sushit` command aesthetic
+- Links to GitHub, Hugging Face, email, resume download
+
+## Technical Requirements
+
+- Clean, semantic HTML/component structure (React preferred if the tool supports it)
+- Fast initial load — terminal aesthetic should not mean heavy animation libraries
+- Mobile-first responsive layout (terminal aesthetic often breaks on small screens — test this carefully)
+- SEO basics: meta title/description, OpenGraph tags for link previews
+- Easy to update project list later — treat the project data as a structured list/array, not hardcoded markup, so new projects can be added quickly
+
+## Tone
+
+Confident, technical, understated. Let the projects do the talking — avoid generic "passionate about AI" copy. Every section should read like it was written by someone who ships production-grade tooling, not a student portfolio template.
+
+---
+
+**Build the site now, starting with the Hero and Featured Projects sections, then iterate through the rest.**

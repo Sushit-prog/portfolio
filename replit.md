@@ -1,6 +1,6 @@
-# [Project name]
+# Sushit — AI Engineer Portfolio
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A terminal-inspired personal portfolio for Sushit, an AI Engineer focused on LLM reliability, safety tooling, and agentic systems.
 
 ## Run & Operate
 
@@ -22,23 +22,33 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/sushit-portfolio/src/App.tsx` — single-page portfolio content, project data, filtering, and section structure
+- `artifacts/sushit-portfolio/src/index.css` — terminal visual system, responsive layout, motion, and accessibility styles
+- `artifacts/sushit-portfolio/index.html` — page metadata and OpenGraph basics
+- `attached_assets/Pasted--Prompt-for-Open-Design-Paste-everything-below-into-Ope_1786005407224.txt` — original product and content brief
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The portfolio is presentation-first and intentionally has no backend or database.
+- Project content is kept in a structured array so new work can be added without rewriting the page markup.
+- The interface uses the requested terminal aesthetic with a restrained motion layer and reduced-motion support.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Hero identity and thesis for AI Engineering roles
+- About and current-signal context
+- Filterable project showcase split across infra/eval/reliability and agentic systems
+- Open-source contributions, skills, and contact links
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Keep the visual language technical, understated, and open-source-grade rather than generic student-portfolio styling.
+- Preserve the exact palette `#0A0F08`, `#8AFF57`, and `#CAFF3C` when extending the site.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- The Vite artifact workflow supplies `PORT` and `BASE_PATH`; use the managed workflow for previewing.
+- Verify mobile layouts when adding project metadata or navigation items because the terminal layout intentionally compresses on small screens.
 
 ## Pointers
 

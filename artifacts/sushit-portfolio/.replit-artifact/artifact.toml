@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Sushit — AI Engineer Portfolio"
+description = "A terminal-inspired personal portfolio for Sushit, an AI Engineer focused on LLM reliability, safety tooling, and agentic systems."
+version = "1.0.0"
+id = "artifacts/sushit-portfolio"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20261
+
+[services.development]
+run = "pnpm --filter @workspace/sushit-portfolio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/sushit-portfolio", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/sushit-portfolio/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20261"
+BASE_PATH = "/"
