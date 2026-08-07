@@ -1,12 +1,5 @@
 {
-  "framework": "vite",
-  "buildCommand": "pnpm run build",
+  "buildCommand": "vite build --config vite.config.ts",
   "installCommand": "pnpm install --frozen-lockfile",
-  "outputDirectory": "dist",
-  "build": {
-    "env": {
-      "PORT": "3000",
-      "BASE_PATH": "/"
-    }
-  }
+  "outputDirectory": "dist"
 }
