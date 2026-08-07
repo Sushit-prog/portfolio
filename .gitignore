@@ -49,6 +49,7 @@ Thumbs.db
 .local/
 
 # local screenshots, logs, and source artifacts (site copies live in public/)
+/public
 /dev-smoke.log
 /image.png
 /me (1).png
