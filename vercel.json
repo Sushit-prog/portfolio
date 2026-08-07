@@ -3,8 +3,10 @@
   "buildCommand": "pnpm --filter @workspace/sushit-portfolio run build",
   "installCommand": "pnpm install --frozen-lockfile",
   "outputDirectory": "artifacts/sushit-portfolio/dist/public",
-  "env": {
-    "PORT": "3000",
-    "BASE_PATH": "/"
+  "build": {
+    "env": {
+      "PORT": "3000",
+      "BASE_PATH": "/"
+    }
   }
 }
