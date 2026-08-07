@@ -2,7 +2,7 @@
   "framework": "vite",
   "buildCommand": "pnpm --filter @workspace/sushit-portfolio run build",
   "installCommand": "pnpm install --frozen-lockfile",
-  "outputDirectory": "artifacts/sushit-portfolio/dist",
+  "outputDirectory": "dist",
   "build": {
     "env": {
       "PORT": "3000",
